@@ -12,7 +12,7 @@ Color green = Color.fromARGB(255, 21, 199, 134);
 // style for navigation bar
 
 var navBarStyle = GoogleFonts.poppins(
-  color: black,
+  color: black.withOpacity(0.6),
   fontWeight: FontWeight.w400,
   fontSize: 20,
 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_web_app/screens/home_screen.dart';
+import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/widgets/layout_builder.dart';
 
 void main(){
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: "my web app",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.green,
       ),
       home: const MainPage(),
     );
@@ -27,6 +28,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Layout();
+    return const LoginScreen();
   }
 }

@@ -9,7 +9,7 @@ class Layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if(constraints.maxWidth <= 500){
+      if(constraints.maxWidth <= 786){
         return MobileHomeScreen();
       }else if(constraints.minWidth > 500 && constraints.maxWidth <= 1180){
         return TabletHomeScreen();
