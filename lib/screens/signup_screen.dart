@@ -1,44 +1,33 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_web_app/firebase.dart';
-import 'package:my_web_app/screens/home_screen.dart';
-import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  bool isLoading = false;
+  TextEditingController confirmPasswordController = TextEditingController();
 
   bool hide = true;
   var eye = Icon(Icons.emergency_sharp);
+
+  bool hideConfirm = true;
+  var confirmEye = Icon(Icons.emergency_sharp);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[500],
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: getScreenWidth(context) < 500
-              ? 10
-              : getScreenWidth(context) < 1000
-                  ? getScreenWidth(context) * 0.25
-                  : getScreenWidth(context) * 0.35,
-          vertical: 40,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: getScreenWidth(context) < 500? 10 : getScreenWidth(context) < 1000? getScreenWidth(context) * 0.25 :  getScreenWidth(context) * 0.35, vertical: 40,),
         child: Container(
           width: getScreenWidth(context),
           decoration: BoxDecoration(
@@ -58,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                 ),
                 Text(
-                  "Welcome back!",
+                  "Welcome first time!",
                   style: GoogleFonts.poppins(
                       color: black, fontWeight: FontWeight.bold, fontSize: 40),
                 ),
@@ -138,60 +127,53 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(
-                  height: 5,
+                  height: 30,
                 ),
-                // forget password section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                // confirm password text input field
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        
-                      },
-                      child: Text(
-                        "Forget Password",
-                        style:
-                            GoogleFonts.poppins(color: Colors.grey, fontSize: 15),
+                    Text(
+                      "Confirm password",
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w700, fontSize: 20),
+                    ),
+                    TextField(
+                      obscureText: hideConfirm,
+                      controller: confirmPasswordController,
+                      cursorColor: green,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (hideConfirm) {
+                                  hideConfirm = false;
+                                  confirmEye =
+                                      Icon(Icons.remove_red_eye_rounded);
+                                } else {
+                                  hideConfirm = true;
+                                  confirmEye = Icon(Icons.emergency_sharp);
+                                }
+                              });
+                            },
+                            icon: confirmEye),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: black, width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: green, width: 2)),
+                        hintText: "confirm password",
                       ),
                     ),
                   ],
                 ),
 
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 // Sign in button
                 GestureDetector(
-                  onTap: () async {
-                    
-                    try {
-                      setState(() {
-                        isLoading = true;
-                      });  
-
-                      await auth
-                          .signInWithEmailAndPassword(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim());
-
-                      Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
-                    } on FirebaseAuthException catch (e) {
-                      setState(() {
-                        isLoading = false;
-                      });
-                      String? error = e.message;
-                      print(error);
-                      errorMessage(error!, context);
-
-                    }
-
-                    print("Login is successfull");
-                  },
+                  onTap: () {},
                   child: Container(
                     width: getScreenWidth(context),
                     height: 60,
@@ -203,8 +185,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 10),
                       child: Center(
-                        child: isLoading? loding() : Text(
-                          "Sign in",
+                        child: Text(
+                          "Sign Up",
                           style: GoogleFonts.poppins(
                             color: white,
                             fontWeight: FontWeight.w600,
@@ -221,23 +203,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?  ",
+                      "Have an account?  ",
                       style: GoogleFonts.poppins(
                         color: black.withOpacity(0.9),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
-                          ),
-                        );
+                      onTap: (){
+                        Navigator.pop(context);
                       },
                       child: Text(
-                        "Sign Up",
+                        "Sign In",
                         style: GoogleFonts.poppins(
                           color: black.withOpacity(0.9),
                           fontWeight: FontWeight.w800,
