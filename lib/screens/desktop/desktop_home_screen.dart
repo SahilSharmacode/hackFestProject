@@ -117,8 +117,6 @@ class DesktopHomeScreen extends StatelessWidget {
                         onPressed: () {},
                         textColor: black,
                       ),
-
-                      
                     ],
                   ),
                 ],
@@ -127,8 +125,8 @@ class DesktopHomeScreen extends StatelessWidget {
 
             // welcome section
             Positioned(
-              top: getScreenHeight(context) * 0.15,
-              left: getScreenWidth(context) * 0.20,
+              top: getScreenHeight(context) * 0.20,
+              left: getScreenWidth(context) * 0.15,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -140,7 +138,7 @@ class DesktopHomeScreen extends StatelessWidget {
                         style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w600,
                           color: black,
-                          fontSize: 50,
+                          fontSize: 45,
                         ),
                       ),
                       Text(
@@ -148,7 +146,7 @@ class DesktopHomeScreen extends StatelessWidget {
                         style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w600,
                           color: green,
-                          fontSize: 50,
+                          fontSize: 45,
                         ),
                       ),
                     ],
@@ -158,7 +156,30 @@ class DesktopHomeScreen extends StatelessWidget {
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w600,
                       color: black,
-                      fontSize: 50,
+                      fontSize: 45,
+                    ),
+                  ),
+
+                  // button navigation section
+                  Padding(
+                    padding:  EdgeInsets.only(top: getScreenHeight(context) * 0.03),
+                    child: Row(
+                      children: [
+                        CustomOutlineButton(
+                          buttonText: "Find Talent",
+                          fillColor: white,
+                          onPressed: () {},
+                          textColor: black,
+                        
+                        ),
+                        SizedBox(width: getScreenWidth(context) * 0.01,),
+                        CustomFillButton(
+                          buttonText: "Find Work",
+                          fillColor: green,
+                          onPressed: () {},
+                          textColor: white,
+                        ),
+                      ],
                     ),
                   ),
                 ],
