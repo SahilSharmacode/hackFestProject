@@ -1,19 +1,81 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
-  ForgetPasswordScreen({super.key});
+class VerificationScreen extends StatefulWidget {
+ 
+  VerificationScreen({super.key});
 
+  @override
+  State<VerificationScreen> createState() => _VerificationScreenState();
+}
+
+class _VerificationScreenState extends State<VerificationScreen> {
   TextEditingController emailController = TextEditingController();
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  bool isEmailVerified = false;
+
+  Timer? timer;
+  
+
+  @override
+  void initState() {
+    
+    // TODO: implement initState
+    super.initState();
+
+    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+
+
+    if(!isEmailVerified){
+      sendEmailVerif();
+
+      timer = Timer.periodic(Duration(seconds: 10), (timer) {
+        checkEmailVerification();
+      });
+    }
+    
+  }
+
+  
+
+  Future sendEmailVerif() async {
+
+    try{
+          final user = FirebaseAuth.instance.currentUser!;
+    await user.sendEmailVerification();
+    sucessMessage("Verification message is send sucessfully", context);
+    } on FirebaseAuthException catch (e){
+      String? error = e.message;
+      errorMessage(error!, context);
+    }
+
+
+  }
+
+  Future checkEmailVerification () async {
+    await FirebaseAuth.instance.currentUser?.reload();
+
+    setState(() {
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer?.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isEmailVerified? HomePage() : Scaffold(
       backgroundColor: white,
       body: Center(
         child: Container(
@@ -23,44 +85,14 @@ class ForgetPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Enter your email passwrod reset link will send to your email",
+                "Email is sent to verify",
                 style: GoogleFonts.poppins(color: Colors.grey, fontSize: 15),
               ),
-              SizedBox(height: 30,),
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Email",
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w700, fontSize: 20),
-                    ),
-                    TextField(
-                      controller: emailController,
-                      cursorColor: green,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: black, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: green, width: 2)),
-                        hintText: "example@domain.com",
-                      ),
-                    ),
-                  
-                  ],
-                ),
-                SizedBox(height: 30,),
-                GestureDetector(
-                  onTap: () async {
-                    try{
 
-                    await auth.sendPasswordResetEmail(email: emailController.text.trim());
-                    sucessMessage("Email is send to you email", context);
-                    } on FirebaseAuthException catch (e){
-                      String? error = e.message;
-                      errorMessage(error!, context);
-                    }
+              SizedBox(height: 30,),
+                GestureDetector(
+                  onTap: () {
+                    FirebaseAuth.instance.signOut();
                   },
                   child: Container(
                     width: getScreenWidth(context) * 0.3,
@@ -74,7 +106,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                           horizontal: 20, vertical: 10),
                       child: Center(
                         child: Text(
-                          "Send email",
+                          "Resend",
                           style: GoogleFonts.poppins(
                             color: white,
                             fontWeight: FontWeight.w600,

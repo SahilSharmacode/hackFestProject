@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_web_app/firebase.dart';
+
+import 'package:my_web_app/screens/forget_password_screen.dart';
 import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
@@ -145,13 +146,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: (){
-                        
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgetPasswordScreen(),
+                          ),
+                        );
                       },
                       child: Text(
                         "Forget Password",
-                        style:
-                            GoogleFonts.poppins(color: Colors.grey, fontSize: 15),
+                        style: GoogleFonts.poppins(
+                            color: Colors.grey, fontSize: 15),
                       ),
                     ),
                   ],
@@ -163,23 +169,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Sign in button
                 GestureDetector(
                   onTap: () async {
-                    
                     try {
                       setState(() {
                         isLoading = true;
-                      });  
+                      });
 
-                      await auth
-                          .signInWithEmailAndPassword(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim());
+                      await auth.signInWithEmailAndPassword(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim());
 
                       Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
                     } on FirebaseAuthException catch (e) {
                       setState(() {
                         isLoading = false;
@@ -187,7 +191,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       String? error = e.message;
                       print(error);
                       errorMessage(error!, context);
-
                     }
 
                     print("Login is successfull");
@@ -203,14 +206,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 10),
                       child: Center(
-                        child: isLoading? loding() : Text(
-                          "Sign in",
-                          style: GoogleFonts.poppins(
-                            color: white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
-                        ),
+                        child: isLoading
+                            ? loding()
+                            : Text(
+                                "Sign in",
+                                style: GoogleFonts.poppins(
+                                  color: white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                ),
+                              ),
                       ),
                     ),
                   ),

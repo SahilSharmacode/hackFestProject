@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_web_app/main.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 
@@ -16,6 +18,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   bool hide = true;
   var eye = Icon(Icons.emergency_sharp);
 
@@ -27,7 +31,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[500],
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: getScreenWidth(context) < 500? 10 : getScreenWidth(context) < 1000? getScreenWidth(context) * 0.25 :  getScreenWidth(context) * 0.35, vertical: 40,),
+        padding: EdgeInsets.symmetric(
+          horizontal: getScreenWidth(context) < 500
+              ? 10
+              : getScreenWidth(context) < 1000
+                  ? getScreenWidth(context) * 0.25
+                  : getScreenWidth(context) * 0.35,
+          vertical: 40,
+        ),
         child: Container(
           width: getScreenWidth(context),
           decoration: BoxDecoration(
@@ -173,7 +184,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 // Sign in button
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      errorMessage("Password should be same", context);
+                    } else {
+                      try {
+                        await auth.createUserWithEmailAndPassword(
+                          email: emailController.text.trim(),
+                          password: confirmPasswordController.text.trim(),
+                        );
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),));
+                      } on FirebaseAuthException catch (e) {
+                        String? error = e.message;
+                        errorMessage(error!, context);
+                      }
+                    }
+                  },
                   child: Container(
                     width: getScreenWidth(context),
                     height: 60,
@@ -210,7 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       child: Text(
