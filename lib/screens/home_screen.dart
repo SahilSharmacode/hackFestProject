@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-      
         backgroundColor: white,
         child: Padding(
           padding: const EdgeInsets.only(left: 60),
@@ -97,23 +97,77 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Container(
-        color: Colors.yellow,
-        child: Column(
-          children: [
-            // navigation bar
-            Row(
-              children: [
-                // Logo
-                Text(
-                  "Logo",
-                  style: GoogleFonts.montserrat(
-                      color: white, fontWeight: FontWeight.w500, fontSize: 100),
-                )
-              ],
-            ),
-          ],
-        ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection("portals").snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List? data = snapshot.data?.docs;
+
+            return ListView.builder(
+              itemCount: data?.length,
+              itemBuilder: (BuildContext context, int index) {
+
+                DocumentSnapshot singlePortal = data?[index];
+                
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  child: Container(
+                    width: 300,
+                    height: 200,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              spreadRadius: 2,
+                              offset: Offset(2, 2)),
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            singlePortal["title"],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          Text(
+                            singlePortal["discription"],
+                            style: TextStyle(overflow: TextOverflow.clip),
+                          ),
+                          Expanded(child: SizedBox()),
+                          Divider(
+                            height: 2,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(singlePortal["price"]),
+                              ElevatedButton(
+                                  onPressed: () {}, child: Text("Details"))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }else{
+            return Center(
+              child: Text("No Data"),
+            );
+          }
+        },
       ),
     );
   }
