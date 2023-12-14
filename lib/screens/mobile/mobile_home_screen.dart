@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
@@ -142,39 +143,12 @@ class MobileHomeScreen extends StatelessWidget {
                         height: 50,
                       ),
                           
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
-                        },
-                        child: Container(
-                          width: getScreenWidth(context),
-                          height:  60,
-                          decoration: BoxDecoration(
-                            color: green,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 10),
-                            child: Center(
-                              child: Text(
-                                "Find Talent",
-                                style: GoogleFonts.poppins(
-                                  color: white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      
+
                           
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),),);
                         },
                         child: Container(
                           width: getScreenWidth(context),
@@ -188,7 +162,7 @@ class MobileHomeScreen extends StatelessWidget {
                                 horizontal: 30, vertical: 10),
                             child: Center(
                               child: Text(
-                                "Find Work",
+                                "Find Talent",
                                 style: GoogleFonts.poppins(
                                   color: black,
                                   fontWeight: FontWeight.w600,

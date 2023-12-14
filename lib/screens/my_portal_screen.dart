@@ -5,23 +5,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_web_app/main.dart';
 import 'package:my_web_app/screens/add_portal_screen.dart';
 import 'package:my_web_app/screens/application_screen.dart';
+import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
-import 'package:my_web_app/screens/my_portal_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 import 'package:my_web_app/widgets/custom_fill_button.dart';
 import 'package:my_web_app/widgets/custom_outline_button.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MyPortalScreen extends StatefulWidget {
+  const MyPortalScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MyPortalScreen> createState() => _MyPortalScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-
+class _MyPortalScreenState extends State<MyPortalScreen> {
   FirebaseFirestore database = FirebaseFirestore.instance;
 
   @override
@@ -41,8 +40,12 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ));
                     },
                     child: Text(
                       "Explore",
@@ -53,8 +56,12 @@ class _HomePageState extends State<HomePage> {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyPortalScreen(),));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyPortalScreen(),
+                          ));
                     },
                     child: Text(
                       "My portals",
@@ -105,7 +112,11 @@ class _HomePageState extends State<HomePage> {
                 fillColor: white,
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainPage(),
+                      ));
                 },
                 textColor: black,
               ),
@@ -118,15 +129,20 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 80,
         backgroundColor: white,
         title: Text(
-          "hourly",
-          style: GoogleFonts.pacifico(
+          "My job portal",
+          style: GoogleFonts.poppins(
             color: Colors.black,
+            fontWeight: FontWeight.w700,
             fontSize: 30,
           ),
         ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("portals").snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("portals")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("applications")
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List? data = snapshot.data?.docs;
@@ -134,11 +150,11 @@ class _HomePageState extends State<HomePage> {
             return ListView.builder(
               itemCount: data?.length,
               itemBuilder: (BuildContext context, int index) {
-
                 DocumentSnapshot singlePortal = data?[index];
-                
+
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   child: Container(
                     width: 300,
                     height: 200,
@@ -158,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            singlePortal["title"],
+                            singlePortal["email"],
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -176,38 +192,35 @@ class _HomePageState extends State<HomePage> {
                             height: 10,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text("₹ " + singlePortal["price"], style: TextStyle(color: green, fontSize: 20, fontWeight: FontWeight.bold ),),
                               GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return ApplicationScreen(documentID: singlePortal.id ,);
-                          },));
-                        },
-                        child: Container(
-                          width: 100,
-                          height:  40,
-                          decoration: BoxDecoration(
-                            color: white,
-                            border: Border.all(color: black, width: 1),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 10),
-                            child: Center(
-                              child: Text(
-                                "Apply",
-                                style: GoogleFonts.poppins(
-                                  color: black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 10,
+                                onTap: () {
+                                  //
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    border: Border.all(color: green, width: 1),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 10),
+                                    child: Center(
+                                      child: Text(
+                                        "Accept",
+                                        style: GoogleFonts.poppins(
+                                          color: green,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                              )
                             ],
                           ),
                         ],
@@ -217,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             );
-          }else{
+          } else {
             return Center(
               child: Text("No Data"),
             );

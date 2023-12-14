@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
+import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/widgets/layout_builder.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -12,11 +13,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+
+   MyApp({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +31,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const Layout(),
+      home:  MainPage(),
     );
   }
 }
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+   MainPage({super.key});
+
+    int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +47,9 @@ class MainPage extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if(snapshot.hasData){
-         return HomePage();
+         return Layout();
         }else{
-          return LoginScreen();
+         return LoginScreen();
         }
       },
     );

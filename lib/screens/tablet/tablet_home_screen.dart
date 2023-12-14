@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
@@ -214,22 +215,12 @@ class TabletHomeScreen extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        CustomOutlineButton(
-                          buttonText: "Find Talent",
-                          fillColor: white,
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
-                          },
-                          textColor: black,
-                        ),
-                        SizedBox(
-                          width: getScreenWidth(context) * 0.01,
-                        ),
+                        
                         CustomFillButton(
-                          buttonText: "Find Work",
+                          buttonText: "Find Talent",
                           fillColor: green,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),),);
                           },
                           textColor: white,
                         ),

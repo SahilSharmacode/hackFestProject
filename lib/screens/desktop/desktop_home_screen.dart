@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/home_screen.dart';
+import 'package:my_web_app/screens/how_it_work_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
@@ -9,7 +12,9 @@ import 'package:my_web_app/widgets/custom_fill_button.dart';
 import 'package:my_web_app/widgets/custom_outline_button.dart';
 
 class DesktopHomeScreen extends StatelessWidget {
-  const DesktopHomeScreen({super.key});
+  DesktopHomeScreen({super.key});
+
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -81,19 +86,49 @@ class DesktopHomeScreen extends StatelessWidget {
                   // Navigation barsection
                   Row(
                     children: [
-                      Text(
-                        "Find Work",
-                        style: navBarStyle,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Find Work",
+                          style: navBarStyle,
+                        ),
                       ),
                       navSpace,
-                      Text(
-                        "Hire a Assistant",
-                        style: navBarStyle,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Hire a Assistant",
+                          style: navBarStyle,
+                        ),
                       ),
                       navSpace,
-                      Text(
-                        "How it work",
-                        style: navBarStyle,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HowItWorkScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "How it work",
+                          style: navBarStyle,
+                        ),
                       ),
                     ],
                   ),
@@ -106,7 +141,12 @@ class DesktopHomeScreen extends StatelessWidget {
                         buttonText: "Sign In",
                         fillColor: green,
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
                         },
                         textColor: white,
                       ),
@@ -120,7 +160,12 @@ class DesktopHomeScreen extends StatelessWidget {
                         buttonText: "Sign Up",
                         fillColor: white,
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),),);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpScreen(),
+                            ),
+                          );
                         },
                         textColor: black,
                       ),
@@ -169,24 +214,20 @@ class DesktopHomeScreen extends StatelessWidget {
 
                   // button navigation section
                   Padding(
-                    padding:  EdgeInsets.only(top: getScreenHeight(context) * 0.03),
+                    padding:
+                        EdgeInsets.only(top: getScreenHeight(context) * 0.03),
                     child: Row(
                       children: [
-                        CustomOutlineButton(
-                          buttonText: "Find Talent",
-                          fillColor: white,
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
-                          },
-                          textColor: black,
-                        
-                        ),
-                        SizedBox(width: getScreenWidth(context) * 0.01,),
                         CustomFillButton(
                           buttonText: "Find Work",
                           fillColor: green,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
                           },
                           textColor: white,
                         ),

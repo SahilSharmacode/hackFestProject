@@ -7,18 +7,19 @@ import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/firebase.dart';
 import 'package:my_web_app/utils/themes.dart';
 
-class AddPortalScreen extends StatefulWidget {
-  AddPortalScreen({super.key});
+class ApplicationScreen extends StatefulWidget {
+
+  String documentID;
+
+  ApplicationScreen({super.key, required this.documentID});
 
   @override
-  State<AddPortalScreen> createState() => _AddPortalScreenState();
+  State<ApplicationScreen> createState() => _ApplicationScreenState();
 }
 
-class _AddPortalScreenState extends State<AddPortalScreen> {
-  TextEditingController titleController = TextEditingController();
+class _ApplicationScreenState extends State<ApplicationScreen> {
 
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
 
   CollectionReference<Map<String, dynamic>> database =
       FirebaseFirestore.instance.collection("portals");
@@ -37,8 +38,8 @@ class _AddPortalScreenState extends State<AddPortalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter your work description below",
-                style: GoogleFonts.poppins(color: black, fontSize: 20, fontWeight: FontWeight.w600),
+                "Write a discription for the, why you are best suted for this work",
+                style: GoogleFonts.poppins(color: black, fontSize: 20, fontWeight: FontWeight.w600,),
               ),
               SizedBox(
                 height: 30,
@@ -46,18 +47,7 @@ class _AddPortalScreenState extends State<AddPortalScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextField(
-                    controller: titleController,
-                    cursorColor: green,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: black, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: green, width: 2)),
-                      hintText: "Title",
-                    ),
-                  ),
+                  
                   SizedBox(
                     height: 20,
                   ),
@@ -76,62 +66,32 @@ class _AddPortalScreenState extends State<AddPortalScreen> {
                     maxLines: 3,
                     minLines: 3,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    controller: priceController,
-                    cursorColor: green,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: black, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: green, width: 2)),
-                      hintText: "price",
-                    ),
-                  ),
+
+          
+
+
                 ],
               ),
               SizedBox(
                 height: 30,
               ),
+
+              // button
               GestureDetector(
                 onTap: () async {
-                  setState(() {
-                    isLoading = true;
+                  try{
+                                      await database.doc(widget.documentID).collection("applications").doc(FirebaseAuth.instance.currentUser!.uid).set({
+                    "email": FirebaseAuth.instance.currentUser!.email,
+                    "discription": descriptionController.text.trim()
                   });
-                  if (titleController.text != "" &&
-                      descriptionController.text != "") {
-                    try {
-                      
-                      await database
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .set({
-                        "title": titleController.text.trim(),
-                        "discription": descriptionController.text.trim(),
-                        "price" :  priceController.text.trim(),
-                      });
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ));
-                      sucessMessage("Portal Added Sucessflut", context);
-                    } catch (e) {
-                      setState(() {
-                        isLoading = false;
-                      });
-                      print(e);
-                      errorMessage("There is some error", context);
-                    }
-                  }else{
-                    setState(() {
-                      isLoading = false;
-                    });
-
-                    errorMessage("Please enter all the fields", context);
+                  Navigator.pop(context);
+                  sucessMessage("Your Application is sucessfully submited", context);
+                  } on FirebaseException catch (e){
+                    String? error = e.message;
+                    errorMessage(error!, context);
                   }
+
+
                 },
                 child: Container(
                   width: getScreenWidth(context) * 0.3,
@@ -147,7 +107,7 @@ class _AddPortalScreenState extends State<AddPortalScreen> {
                       child: isLoading
                             ? loding()
                             :  Text(
-                        "New Portal",
+                        "Apply",
                         style: GoogleFonts.poppins(
                           color: white,
                           fontWeight: FontWeight.w600,
