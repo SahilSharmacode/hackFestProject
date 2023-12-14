@@ -7,6 +7,7 @@ import 'package:my_web_app/screens/add_portal_screen.dart';
 import 'package:my_web_app/screens/application_screen.dart';
 import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
+import 'package:my_web_app/screens/requirement_ask_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
@@ -197,6 +198,7 @@ class _MyPortalScreenState extends State<MyPortalScreen> {
                               GestureDetector(
                                 onTap: () {
                                   //
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RequirementAskScreen(documentID: singlePortal.id),));
                                 },
                                 child: Container(
                                   width: 100,

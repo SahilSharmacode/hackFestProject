@@ -1,16 +1,17 @@
-# my_web_app
+# hourly 
 
-A new Flutter project.
+It is a basic app where you can get a assistent for an hour 
+or you can work for and hour 
 
-## Getting Started
+## theme
 
-This project is a starting point for a Flutter application.
+job board
 
-A few resources to get you started if this is your first Flutter project:
+## technology
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## how this app work
+
+first the user have to login in my website and then you can make you job portal and also join to the any job port for work
+
