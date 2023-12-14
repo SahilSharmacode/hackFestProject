@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/login_screen.dart';
+import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 import 'package:my_web_app/widgets/custom_outline_button.dart';
@@ -52,7 +55,9 @@ class TabletHomeScreen extends StatelessWidget {
               CustomFillButton(
                         buttonText: "Sign In",
                         fillColor: green,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+                        },
                         textColor: white,
                       ),
               const SizedBox(
@@ -61,7 +66,9 @@ class TabletHomeScreen extends StatelessWidget {
               CustomOutlineButton(
                 buttonText: "Sign Out",
                 fillColor: white,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),),);
+                },
                 textColor: black,
               ),
             ],
@@ -210,7 +217,9 @@ class TabletHomeScreen extends StatelessWidget {
                         CustomOutlineButton(
                           buttonText: "Find Talent",
                           fillColor: white,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                          },
                           textColor: black,
                         ),
                         SizedBox(
@@ -219,7 +228,9 @@ class TabletHomeScreen extends StatelessWidget {
                         CustomFillButton(
                           buttonText: "Find Work",
                           fillColor: green,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                          },
                           textColor: white,
                         ),
                       ],

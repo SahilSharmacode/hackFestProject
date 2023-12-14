@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_web_app/screens/Verification_screen.dart';
 import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const MainPage(),
+      home: const Layout(),
     );
   }
 }
@@ -41,7 +40,7 @@ class MainPage extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if(snapshot.hasData){
-         return VerificationScreen();
+         return HomePage();
         }else{
           return LoginScreen();
         }

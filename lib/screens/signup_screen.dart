@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/login_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 
@@ -19,6 +20,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  bool isLoading = false;
 
   bool hide = true;
   var eye = Icon(Icons.emergency_sharp);
@@ -190,12 +193,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       errorMessage("Password should be same", context);
                     } else {
                       try {
+                        setState(() {
+                        isLoading = true;
+                      });
                         await auth.createUserWithEmailAndPassword(
                           email: emailController.text.trim(),
                           password: confirmPasswordController.text.trim(),
                         );
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
                       } on FirebaseAuthException catch (e) {
+                        setState(() {
+                        isLoading = true;
+                      });
                         String? error = e.message;
                         errorMessage(error!, context);
                       }
@@ -212,14 +221,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 10),
                       child: Center(
-                        child: Text(
-                          "Sign Up",
-                          style: GoogleFonts.poppins(
-                            color: white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
-                        ),
+                        child: isLoading
+                            ? loding()
+                            : Text(
+                                "Sign Up",
+                                style: GoogleFonts.poppins(
+                                  color: white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                ),
+                              ),
                       ),
                     ),
                   ),

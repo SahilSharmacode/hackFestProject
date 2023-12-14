@@ -1,15 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
+import 'package:my_web_app/utils/firebase.dart';
 import 'package:my_web_app/utils/themes.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
-  ForgetPasswordScreen({super.key});
+class AddPortalScreen extends StatelessWidget {
+  AddPortalScreen({super.key});
+  
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
-  TextEditingController emailController = TextEditingController();
-
-  FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference<Map<String, dynamic>> database = FirebaseFirestore.instance.collection("portals");
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +27,15 @@ class ForgetPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Enter your email passwrod reset link will send to your email",
+                "Enter your work description below",
                 style: GoogleFonts.poppins(color: Colors.grey, fontSize: 15),
               ),
               SizedBox(height: 30,),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Email",
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w700, fontSize: 20),
-                    ),
                     TextField(
-                      controller: emailController,
+                      controller: titleController,
                       cursorColor: green,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -44,8 +43,26 @@ class ForgetPasswordScreen extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: green, width: 2)),
-                        hintText: "example@domain.com",
+                        hintText: "Title",
                       ),
+                    ),
+
+                    SizedBox(height: 20,),
+                    TextField(
+                      controller: descriptionController,
+                      cursorColor: green,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: black, width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: green, width: 2)),
+                        hintText: "Discription under 200 words",
+                        
+                      ),
+                      maxLength: 200,
+                      maxLines: 3,
+                      minLines: 3,
                     ),
                   
                   ],
@@ -54,12 +71,16 @@ class ForgetPasswordScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () async {
                     try{
+                      await database.doc(FirebaseAuth.instance.currentUser!.uid).set({
+                        "title": titleController.text.trim(),
+                        "discription" : descriptionController.text.trim()
+                      });
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                      sucessMessage("Portal Added Sucessflut", context);
 
-                    await auth.sendPasswordResetEmail(email: emailController.text.trim());
-                    sucessMessage("Email is send to you email", context);
-                    } on FirebaseAuthException catch (e){
-                      String? error = e.message;
-                      errorMessage(error!, context);
+                    } catch(e){
+                      print(e);
+                      errorMessage("There is some error", context);
                     }
                   },
                   child: Container(
@@ -74,7 +95,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                           horizontal: 20, vertical: 10),
                       child: Center(
                         child: Text(
-                          "Send email",
+                          "New Portal",
                           style: GoogleFonts.poppins(
                             color: white,
                             fontWeight: FontWeight.w600,

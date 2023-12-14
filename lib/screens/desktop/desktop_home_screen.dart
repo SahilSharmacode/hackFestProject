@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/login_screen.dart';
+import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 import 'package:my_web_app/widgets/custom_fill_button.dart';
@@ -102,7 +105,9 @@ class DesktopHomeScreen extends StatelessWidget {
                       CustomFillButton(
                         buttonText: "Sign In",
                         fillColor: green,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+                        },
                         textColor: white,
                       ),
 
@@ -112,9 +117,11 @@ class DesktopHomeScreen extends StatelessWidget {
 
                       // Sign up Button
                       CustomOutlineButton(
-                        buttonText: "Sign Out",
+                        buttonText: "Sign Up",
                         fillColor: white,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),),);
+                        },
                         textColor: black,
                       ),
                     ],
@@ -168,7 +175,9 @@ class DesktopHomeScreen extends StatelessWidget {
                         CustomOutlineButton(
                           buttonText: "Find Talent",
                           fillColor: white,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                          },
                           textColor: black,
                         
                         ),
@@ -176,7 +185,9 @@ class DesktopHomeScreen extends StatelessWidget {
                         CustomFillButton(
                           buttonText: "Find Work",
                           fillColor: green,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                          },
                           textColor: white,
                         ),
                       ],

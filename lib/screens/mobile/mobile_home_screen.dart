@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_web_app/main.dart';
+import 'package:my_web_app/screens/login_screen.dart';
+import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
 import 'package:my_web_app/utils/themes.dart';
 import 'package:my_web_app/widgets/custom_fill_button.dart';
@@ -63,16 +66,20 @@ class MobileHomeScreen extends StatelessWidget {
                 CustomFillButton(
                         buttonText: "Sign In",
                         fillColor: green,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+                        },
                         textColor: white,
                       ),
                 const SizedBox(
                   height: 20,
                 ),
                 CustomOutlineButton(
-                  buttonText: "Sign Out",
+                  buttonText: "Sign Up",
                   fillColor: white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),),);
+                  },
                   textColor: black,
                 ),
               ],
@@ -136,7 +143,9 @@ class MobileHomeScreen extends StatelessWidget {
                       ),
                           
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                        },
                         child: Container(
                           width: getScreenWidth(context),
                           height:  60,
@@ -164,7 +173,9 @@ class MobileHomeScreen extends StatelessWidget {
                       ),
                           
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),),);
+                        },
                         child: Container(
                           width: getScreenWidth(context),
                           height:  60,

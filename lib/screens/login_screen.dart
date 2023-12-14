@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:my_web_app/screens/forget_password_screen.dart';
 import 'package:my_web_app/screens/home_screen.dart';
 import 'package:my_web_app/screens/signup_screen.dart';
 import 'package:my_web_app/utils/constants.dart';
@@ -133,31 +132,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: green, width: 2)),
                         hintText: "password",
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(
-                  height: 5,
-                ),
-                // forget password section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgetPasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Forget Password",
-                        style: GoogleFonts.poppins(
-                            color: Colors.grey, fontSize: 15),
                       ),
                     ),
                   ],
